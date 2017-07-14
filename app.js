@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 // Get JWT Token
-app.post("/token", function(req, res) {  
+app.post("/auth/login", function(req, res) {  
   if(req.body.email && req.body.password){
     const email = req.body.email;
     const password = req.body.password;
