@@ -33,13 +33,18 @@ app.post("/auth/login", function(req, res) {
       };
       const token = jwt.encode(payload, cfg.jwtSecret);
       res.json({
+        success: true,
         token: token
       });
     }else{
-      res.sendStatus(401);
+      res.json({
+        succcess: false
+      });
     }
   }else{
-    res.sendStatus(401);
+    res.json({
+      succcess: false
+    });
   }
 });
 
