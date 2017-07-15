@@ -21,4 +21,17 @@ export class AuthService {
     return this.http.post("/auth/login", body, {headers})
       .map(res => res.json());
   }
+
+  register(email:string, password:string){
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    const body = {
+      email,
+      password
+    };
+
+    return this.http.post("/auth/register", body, {headers})
+      .map(res => res.json());
+  }
 }

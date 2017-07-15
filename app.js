@@ -1,13 +1,29 @@
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
+
 const auth = require("./auth")();
 const users = require("./users");
-const cfg = require("./config");
+const jwt_config = require("./config/jwt");
+const database_config = require("./config/database");
 const jwt = require("jwt-simple");
+
+const User = require("./models/user");
 
 app.use(bodyParser.json());
 app.use(auth.initialize());
+
+// Mongoose
+mongoose.connect(database_config.database_url, {
+  useMongoClient: true
+});
+mongoose.connection.on("connected", () => {
+  console.log("Connected to database");
+});
+mongoose.connection.on("error", (err) => {
+  console.log("Database error:", error);
+});
 
 // Get user info (authenticated route)
 app.get("/user", auth.authenticate(), (req, res) => {
@@ -20,33 +36,45 @@ app.get("/", (req, res) => {
 });
 
 // Get JWT Token
-app.post("/auth/login", function(req, res) {  
-  if(req.body.email && req.body.password){
-    const email = req.body.email;
-    const password = req.body.password;
-    const user = users.find(function(u) {
-      return u.email === email && u.password === password;
-    });
-    if(user){
+app.post("/auth/login", (req, res) => {  
+  const email = req.body.email || "";
+  const password = req.body.password || "";
+
+  User.getUserByEmail(email, (err, user) => {
+    // Handle error or null result
+    if(err) return res.json({success: false, error: "A server error occurred"});
+    if(!user) return res.json({succes: false, error: "Email not registered"});
+
+    // Check password
+    if(user.password == password){
       const payload = {
-        id: user.id
+        id: user.email
       };
-      const token = jwt.encode(payload, cfg.jwtSecret);
-      res.json({
-        success: true,
-        token: token
-      });
+      const token = jwt.encode(payload, jwt_config.jwtSecret);
+
+      return res.json({success: true, token: token});
     }else{
-      res.json({
-        succcess: false
-      });
+      return res.json({success: false, error: "Wrong password"});
     }
-  }else{
-    res.json({
-      succcess: false
-    });
-  }
+  });
 });
+
+app.post("/auth/register", (req, res) => {
+  const email = req.body.email || "";
+  const password = req.body.password || "";
+
+  const _user = new User({
+    email: email,
+    password: password
+  });
+
+  User.addUser(_user, (err, user) => {
+    if(err) return res.json({success: false, error: err});
+
+    if(user) return res.json({success: true, msg: "Successfully registered"});
+  });
+});
+
 
 
 app.listen(3000, () => {

@@ -1,10 +1,11 @@
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
-const cfg = require("./config");
+const jwt_secret = require("./config/jwt");
+
 const ExtractJwt = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
 const params = {
-  secretOrKey: cfg.jwtSecret,
+  secretOrKey: jwt_secret.jwtSecret,
   jwtFromRequest: ExtractJwt.fromAuthHeader()
 };
 
@@ -30,7 +31,7 @@ module.exports = function(){
       return passport.initialize();
     },
     authenticate: function(){
-      return passport.authenticate("jwt", cfg.jwtSession)
+      return passport.authenticate("jwt", jwt_secret.jwtSession)
     }
   }
 }

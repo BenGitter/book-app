@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
       if(data.success){
         localStorage.setItem("token", data.token);
         console.log(this.loggedIn());
+      }else{
+        console.log(data);
       }
     });
   }
