@@ -37,6 +37,11 @@ export class AuthService {
   }
 
   loggedIn(){
-    return tokenNotExpired();
+    if(tokenNotExpired()){
+      return true;
+    }else{
+      localStorage.removeItem("token");
+      return false;
+    }
   }
 }

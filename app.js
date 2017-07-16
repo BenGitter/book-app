@@ -6,7 +6,7 @@ const app = express();
 const auth = require("./controllers/auth")();
 const jwt_config = require("./config/jwt");
 const database_config = require("./config/database");
-const jwt = require("jwt-simple");
+const jwt = require("jsonwebtoken");
 
 const User = require("./models/user");
 
@@ -57,7 +57,9 @@ app.post("/auth/login", (req, res) => {
         const payload = {
           email: user.email
         };
-        const token = jwt.encode(payload, jwt_config.jwtSecret);
+        const token = jwt.sign(payload, jwt_config.jwtSecret, {
+          expiresIn: "7d"
+        });
 
         return res.json({success: true, token: token});
       }else{
