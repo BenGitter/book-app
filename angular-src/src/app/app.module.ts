@@ -14,10 +14,14 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { SettingsComponent } from './settings/settings.component';
+import { RequestsComponent } from './requests/requests.component';
 
 const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
+  { path: "requests", component: RequestsComponent },
+  { path: "settings", component: SettingsComponent },
   { path: "", component: HomeComponent }
 ];
 
@@ -27,7 +31,9 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    SettingsComponent,
+    RequestsComponent
   ],
   imports: [
     BrowserModule,
