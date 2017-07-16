@@ -3,8 +3,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 
-const auth = require("./auth")();
-const users = require("./users");
+const auth = require("./controllers/auth")();
 const jwt_config = require("./config/jwt");
 const database_config = require("./config/database");
 const jwt = require("jwt-simple");
@@ -28,7 +27,13 @@ mongoose.connection.on("error", (err) => {
 // Get user info (authenticated route)
 app.get("/user", auth.authenticate(), (req, res) => {
   console.log(req.user);
-  res.json(req.user);
+  res.json({
+    email: req.user.email,
+    password: req.user.password,
+    name: req.username || "",
+    city: req.user.city || "",
+    country: req.user.country || ""
+  });
 });
 
 app.get("/", (req, res) => {
@@ -48,7 +53,7 @@ app.post("/auth/login", (req, res) => {
     // Check password
     if(user.password == password){
       const payload = {
-        id: user.email
+        email: user.email
       };
       const token = jwt.encode(payload, jwt_config.jwtSecret);
 

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
-const jwt_secret = require("./config/jwt");
+const jwt_secret = require("../config/jwt");
+const User = require("../models/user");
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
@@ -9,19 +10,18 @@ const params = {
   jwtFromRequest: ExtractJwt.fromAuthHeader()
 };
 
-// To be replaced:
-const users = require("./users");
-
 module.exports = function(){
   const strategy = new Strategy(params, (payload, done) => {
-    let user = users[payload.id] || null;
-    if(user){
-      return done(null, {
-        id: user.id
-      });
-    }else{
-      return done(new Error("User not found"), null);
-    }
+    const email = payload.email || 0;
+
+    User.getUserByEmail(email, (err, user) => {
+      if(user){
+        return done(null, user);
+      }else{
+        return done(err);
+      }
+    });
+
   });
 
   passport.use(strategy);
