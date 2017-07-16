@@ -5,8 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-// Services
+// Services + Guards
 import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 
 // Components
 import { AppComponent } from './app.component';
@@ -20,8 +21,8 @@ import { RequestsComponent } from './requests/requests.component';
 const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
-  { path: "requests", component: RequestsComponent },
-  { path: "settings", component: SettingsComponent },
+  { path: "requests", component: RequestsComponent, canActivate: [AuthGuard] },
+  { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
   { path: "", component: HomeComponent }
 ];
 
@@ -41,7 +42,10 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

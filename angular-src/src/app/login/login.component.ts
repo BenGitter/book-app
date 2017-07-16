@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { tokenNotExpired } from 'angular2-jwt';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -22,15 +21,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.email, this.password).subscribe(data => {
       if(data.success){
         localStorage.setItem("token", data.token);
-        console.log(this.loggedIn());
       }else{
         console.log(data);
       }
     });
   }
-
-  loggedIn(){
-    return tokenNotExpired();
-  }
-
 }
