@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(auth.initialize());
 
 // Mongoose
+mongoose.Promise = global.Promise;
 mongoose.connect(database_config.database_url, {
   useMongoClient: true
 });
@@ -51,16 +52,19 @@ app.post("/auth/login", (req, res) => {
     if(!user) return res.json({succes: false, error: "Email not registered"});
 
     // Check password
-    if(user.password == password){
-      const payload = {
-        email: user.email
-      };
-      const token = jwt.encode(payload, jwt_config.jwtSecret);
+    User.comparePassword(password, user.password, (err, isMatch) => {
+      if(isMatch){
+        const payload = {
+          email: user.email
+        };
+        const token = jwt.encode(payload, jwt_config.jwtSecret);
 
-      return res.json({success: true, token: token});
-    }else{
-      return res.json({success: false, error: "Wrong password"});
-    }
+        return res.json({success: true, token: token});
+      }else{
+        return res.json({success: false, error: "Wrong password"});
+      }
+    });
+
   });
 });
 

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // User schema
 const UserSchema = mongoose.Schema({
@@ -32,6 +33,23 @@ module.exports.addUser = function(user, callback){
     if(err) return callback(err);
     if(match) return callback("Email already used");
 
-    user.save(callback);
+    bcrypt.genSalt(10, (err, salt) => {
+      if(err) throw err;
+
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if(err) throw err;
+
+        user.password = hash;
+        user.save(callback);
+      });
+    })
+  });
+}
+
+module.exports.comparePassword = function(password, hash, callback){
+  bcrypt.compare(password, hash, (err, isMatch) => {
+    if(err) throw err;
+
+    callback(null, isMatch);
   });
 }
