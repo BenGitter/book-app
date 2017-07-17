@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../auth.service';
@@ -12,7 +13,10 @@ export class LoginComponent implements OnInit {
   email:string = "";
   password:string = "";
 
-  constructor(private authService:AuthService) { }
+  constructor(
+    private authService:AuthService,
+    private router:Router
+  ) { }
 
   ngOnInit() {
   }
@@ -21,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.email, this.password).subscribe(data => {
       if(data.success){
         localStorage.setItem("token", data.token);
+        this.router.navigate(["/"]);
       }else{
         console.log(data);
       }
