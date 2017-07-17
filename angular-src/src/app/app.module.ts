@@ -17,12 +17,14 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RequestsComponent } from './requests/requests.component';
+import { MyBooksComponent } from './my-books/my-books.component';
 
 const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "requests", component: RequestsComponent, canActivate: [AuthGuard] },
   { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: "mybooks", component: MyBooksComponent, canActivate: [AuthGuard] },
   { path: "", component: HomeComponent }
 ];
 
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
     HomeComponent,
     NavbarComponent,
     SettingsComponent,
-    RequestsComponent
+    RequestsComponent,
+    MyBooksComponent
   ],
   imports: [
     BrowserModule,
