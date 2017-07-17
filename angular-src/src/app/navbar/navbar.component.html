@@ -21,7 +21,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a *ngIf="!authService.loggedIn()" routerLink="/login" routerLinkActive="active">Login</a></li>
         <li><a *ngIf="!authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a></li>
-        <li><a *ngIf="authService.loggedIn()" href="#">Logout</a></li>
+        <li><a *ngIf="authService.loggedIn()" (click)="logout($event)" href="#">Logout</a></li>
         <li><a *ngIf="authService.loggedIn()" routerLink="/settings" routerLinkActive="active"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
       </ul>
     </div>

@@ -36,6 +36,10 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  logout(){
+    localStorage.removeItem("token");
+  }
+
   loggedIn(){
     if(tokenNotExpired()){
       return true;
@@ -44,4 +48,5 @@ export class AuthService {
       return false;
     }
   }
+
 }
