@@ -15,14 +15,14 @@
     <div [class.in]="collapseOpen" class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a routerLink="/" routerLinkActive="active">Overview</a></li>
-        <li><a routerLink="/requests" routerLinkActive="active">Requests</a></li>
-        <li><a routerLink="/mybooks" routerLinkActive="active">My Books</a></li>
+        <li><a *ngIf="authService.loggedIn()" routerLink="/requests" routerLinkActive="active">Requests</a></li>
+        <li><a *ngIf="authService.loggedIn()" routerLink="/mybooks" routerLinkActive="active">My Books</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-        <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-        <li><a href="#">Logout</a></li>
-        <li><a routerLink="/settings" routerLinkActive="active"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+        <li><a *ngIf="!authService.loggedIn()" routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li><a *ngIf="!authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a></li>
+        <li><a *ngIf="authService.loggedIn()" href="#">Logout</a></li>
+        <li><a *ngIf="authService.loggedIn()" routerLink="/settings" routerLinkActive="active"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
       </ul>
     </div>
   </div>
