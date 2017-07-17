@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <li><a routerLink="/" routerLinkActive="active">Overview</a></li>
         <li><a *ngIf="authService.loggedIn()" routerLink="/requests" routerLinkActive="active">Requests</a></li>
-        <li><a *ngIf="authService.loggedIn()" routerLink="/mybooks" routerLinkActive="active">My Books</a></li>
+        <li><a *ngIf="authService.loggedIn()" routerLink="/my-books" routerLinkActive="active">My Books</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a *ngIf="!authService.loggedIn()" routerLink="/login" routerLinkActive="active">Login</a></li>

@@ -1,0 +1,22 @@
+.book{
+  float: left;
+  height: 180px;
+  width: 128px;
+  overflow: hidden;
+  margin: 3px;
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 2px;
+}
+
+.book img{
+  width: 128px;
+}
+
+.book.selected{
+  border: 2px solid green;
+}
+
+button[type="submit"]{
+  margin-bottom: 20px;
+}

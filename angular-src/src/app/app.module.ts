@@ -1,3 +1,4 @@
+import { BookService } from './book.service';
 // Angular stuff
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,14 +19,16 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RequestsComponent } from './requests/requests.component';
 import { MyBooksComponent } from './my-books/my-books.component';
+import { AddBookComponent } from './add-book/add-book.component';
 
 const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "requests", component: RequestsComponent, canActivate: [AuthGuard] },
   { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: "mybooks", component: MyBooksComponent, canActivate: [AuthGuard] },
-  { path: "", component: HomeComponent }
+  { path: "my-books", component: MyBooksComponent, canActivate: [AuthGuard] },
+  { path: "add-book", component: AddBookComponent, canActivate: [AuthGuard] },
+  { path: "**", component: HomeComponent }
 ];
 
 @NgModule({
@@ -37,7 +40,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     SettingsComponent,
     RequestsComponent,
-    MyBooksComponent
+    MyBooksComponent,
+    AddBookComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthService,
-    AuthGuard
+    AuthGuard,
+    BookService
   ],
   bootstrap: [AppComponent]
 })
