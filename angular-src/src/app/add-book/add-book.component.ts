@@ -25,6 +25,7 @@ export class AddBookComponent implements OnInit {
   onAddBook(){
     this.bookService.addBook(this.selectedBook).subscribe(data => {
       if(data.success){
+        this.bookService.books.push(data.book);
         this.router.navigate(["/my-books"]);
       }
     });

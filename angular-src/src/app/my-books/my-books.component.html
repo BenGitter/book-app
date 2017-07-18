@@ -4,4 +4,12 @@
     <button routerLink="/add-book" class="btn btn-add btn-default">+</button>
   </div>
   
+  <div class="col-xs-12">
+    <div *ngFor="let book of bookService.books | filterByEmail:authService.getEmail()">
+      <div class="book">
+        <img [src]="book.thumbnail" [alt]="book.title">
+      </div>
+    </div>
+  </div>
+  
 </div>

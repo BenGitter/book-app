@@ -50,7 +50,7 @@ app.post("/api/book", auth.authenticate(), (req, res) => {
     if(err){
       res.json({success: false, error: err});
     }else{
-      res.json({success: true});
+      res.json({success: true, book: book});
     }
   });
 

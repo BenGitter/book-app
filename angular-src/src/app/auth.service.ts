@@ -1,4 +1,4 @@
-import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
@@ -7,8 +7,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthService {
 
-  constructor(private http:Http) { }
+  jwtHelper: JwtHelper = new JwtHelper();
 
+  constructor(private http:Http) { }
 
   login(email:string, password:string){
     let headers = new Headers();
@@ -55,6 +56,10 @@ export class AuthService {
     }else{
       return "";
     }
+  }
+
+  getEmail(){
+    return this.jwtHelper.decodeToken(this.getToken()).email;
   }
 
 }

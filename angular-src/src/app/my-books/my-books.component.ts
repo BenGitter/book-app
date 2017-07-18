@@ -1,3 +1,5 @@
+import { AuthService } from './../auth.service';
+import { BookService } from './../book.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyBooksComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public bookService:BookService,
+    public authService:AuthService
+  ) { }
 
   ngOnInit() {
   }

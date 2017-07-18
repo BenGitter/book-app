@@ -1,3 +1,4 @@
+import { FilterByEmailPipe } from './filter-by-email.pipe';
 import { BookService } from './book.service';
 // Angular stuff
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
     SettingsComponent,
     RequestsComponent,
     MyBooksComponent,
-    AddBookComponent
+    AddBookComponent,
+    FilterByEmailPipe
   ],
   imports: [
     BrowserModule,
