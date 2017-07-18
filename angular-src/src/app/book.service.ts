@@ -7,11 +7,19 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class BookService {
 
+  books:Array<any> = [];
+
   constructor(
     private http:Http,
     private authService:AuthService
-  ) { }
-
+  ) {
+    this.getAllBooks().subscribe(data => {
+      console.log(data);
+      if(data.success){
+        this.books = data.books;
+      }
+    });
+  }
 
   getSearchResults(search:string){
     let headers = new Headers();
@@ -33,7 +41,16 @@ export class BookService {
       thumbnail: book.volumeInfo.imageLinks.smallThumbnail
     };
 
-    return this.http.post("/api/book", body, {headers: headers}).map(res => res.json());
+    return this.http.post("/api/book", body, {headers: headers})
+      .map(res => res.json());
+  }
+
+  getAllBooks(){
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    return this.http.get("/api/books", {headers: headers})
+      .map(res => res.json());
   }
 
 }

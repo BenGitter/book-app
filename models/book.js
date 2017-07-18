@@ -25,3 +25,7 @@ const Book = module.exports = mongoose.model("Book", BookSchema);
 module.exports.addBook = function(book, callback){
   book.save(callback);
 }
+
+module.exports.getAllBooks = function(callback){
+  Book.find(callback);
+}

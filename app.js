@@ -56,6 +56,16 @@ app.post("/api/book", auth.authenticate(), (req, res) => {
 
 });
 
+app.get("/api/books", (req, res) => {
+  Book.getAllBooks((err, books) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true, books: books});
+    }
+  });
+});
+
 app.get("/", (req, res) => {
   res.json({msg: "Backend endpoint"});
 });
