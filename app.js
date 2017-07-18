@@ -9,6 +9,7 @@ const database_config = require("./config/database");
 const jwt = require("jsonwebtoken");
 
 const User = require("./models/user");
+const Book = require("./models/book");
 
 app.use(bodyParser.json());
 app.use(auth.initialize());
@@ -35,6 +36,24 @@ app.get("/user", auth.authenticate(), (req, res) => {
     city: req.user.city || "",
     country: req.user.country || ""
   });
+});
+
+app.post("/api/book", auth.authenticate(), (req, res) => {
+  const _book = new Book({
+    title: req.body.title || "",
+    authors: req.body.authors || "",
+    thumbnail: req.body.thumbnail || "",
+    owner: req.user.email || ""
+  });
+
+  Book.addBook(_book, (err, book) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true});
+    }
+  });
+
 });
 
 app.get("/", (req, res) => {

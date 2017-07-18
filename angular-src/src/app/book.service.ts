@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { Http, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
@@ -7,7 +8,8 @@ import 'rxjs/add/operator/map';
 export class BookService {
 
   constructor(
-    private http:Http
+    private http:Http,
+    private authService:AuthService
   ) { }
 
 
@@ -19,9 +21,19 @@ export class BookService {
   }
 
   addBook(book:any){
+    const token = this.authService.getToken();
+
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
 
-    return this.http.post("/api/book", book, {headers: headers}).map(res => res.json());
+    const body = {
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors,
+      thumbnail: book.volumeInfo.imageLinks.smallThumbnail
+    };
+
+    return this.http.post("/api/book", body, {headers: headers}).map(res => res.json());
   }
+
 }

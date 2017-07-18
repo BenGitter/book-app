@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { BookService } from './../book.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -14,7 +15,8 @@ export class AddBookComponent implements OnInit {
   selectedBook:any = null;
 
   constructor(
-    private bookService:BookService
+    private bookService:BookService,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class AddBookComponent implements OnInit {
   onAddBook(){
     this.bookService.addBook(this.selectedBook).subscribe(data => {
       if(data.success){
-        // Success message
+        this.router.navigate(["/my-books"]);
       }
     });
   }

@@ -49,4 +49,12 @@ export class AuthService {
     }
   }
 
+  getToken(){
+    if(this.loggedIn()){
+      return localStorage.getItem("token");
+    }else{
+      return "";
+    }
+  }
+
 }
