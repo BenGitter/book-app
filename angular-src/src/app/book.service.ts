@@ -8,17 +8,26 @@ import 'rxjs/add/operator/map';
 export class BookService {
 
   books:Array<any> = [];
+  requests:Array<any> = [];
 
   constructor(
     private http:Http,
     private authService:AuthService
   ) {
+    // Get all books
     this.getAllBooks().subscribe(data => {
-      console.log(data);
       if(data.success){
         this.books = data.books;
       }
     });
+
+    // Get all requests
+    this.getAllRequests().subscribe(data => {
+      if(data.success){
+        this.requests = data.requests;
+      }
+    });
+
   }
 
   getSearchResults(search:string){
@@ -50,6 +59,55 @@ export class BookService {
     headers.append("Content-Type", "application/json");
 
     return this.http.get("/api/books", {headers: headers})
+      .map(res => res.json());
+  }
+
+  requestBook(book:any){
+    const token = this.authService.getToken();
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
+
+    return this.http.post("/api/request", book, {headers: headers})
+      .map(res => res.json());
+  }
+
+  getAllRequests(){
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    return this.http.get("/api/requests", {headers: headers})
+      .map(res => res.json());
+  }
+
+  isRequested(book){
+    const match = this.requests.find((request, i) => {
+      return (request.title == book.title && request.requestedBy == this.authService.getEmail());
+    });
+
+    return match ? true : false;
+  }
+
+  removeRequest(id:string){
+    const token = this.authService.getToken();
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
+
+    return this.http.delete("/api/request/"+id, {headers: headers})
+      .map(res => res.json());
+  }
+
+  acceptRequest(id:string){
+    const token = this.authService.getToken();
+    console.log(token);
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
+
+    return this.http.put("/api/request/"+id, {}, {headers: headers})
       .map(res => res.json());
   }
 

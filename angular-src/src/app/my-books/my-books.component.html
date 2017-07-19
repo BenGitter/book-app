@@ -5,7 +5,7 @@
   </div>
   
   <div class="col-xs-12">
-    <div *ngFor="let book of bookService.books | filterByEmail:authService.getEmail()">
+    <div *ngFor="let book of bookService.books | filterBy:'owner':authService.getEmail()">
       <div class="book">
         <img [src]="book.thumbnail" [alt]="book.title">
       </div>

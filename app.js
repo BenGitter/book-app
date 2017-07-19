@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("./models/user");
 const Book = require("./models/book");
+const Request = require("./models/request");
 
 app.use(bodyParser.json());
 app.use(auth.initialize());
@@ -38,6 +39,54 @@ app.get("/user", auth.authenticate(), (req, res) => {
   });
 });
 
+app.post("/api/request", auth.authenticate(), (req, res) => {
+  const _request = new Request({
+    title: req.body.title || "",
+    authors: req.body.authors || "",
+    thumbnail: req.body.thumbnail || "",
+    owner: req.body.owner || "",
+    requestedBy: req.user.email || ""     
+  }); 
+
+  Request.addRequest(_request, (err, request) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true, request: request});
+    }
+  });
+});
+
+app.get("/api/requests", (req, res) => {
+  Request.getAllRequests((err, requests) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true, requests: requests});
+    }
+  });
+});
+
+app.delete("/api/request/:id", auth.authenticate(), (req, res) => {
+  Request.removeRequest(req.params.id, (err, request) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true});
+    }
+  });
+});
+
+app.put("/api/request/:id", auth.authenticate(), (req, res) => {
+  Request.acceptRequest(req.params.id, (err, request) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      res.json({success: true});
+    }
+  });
+});
+
 app.post("/api/book", auth.authenticate(), (req, res) => {
   const _book = new Book({
     title: req.body.title || "",
@@ -53,7 +102,6 @@ app.post("/api/book", auth.authenticate(), (req, res) => {
       res.json({success: true, book: book});
     }
   });
-
 });
 
 app.get("/api/books", (req, res) => {

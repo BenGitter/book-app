@@ -1,5 +1,4 @@
-import { FilterByEmailPipe } from './filter-by-email.pipe';
-import { BookService } from './book.service';
+import { FilterByPipe } from './filter-by.pipe';
 // Angular stuff
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,6 +8,7 @@ import { HttpModule } from '@angular/http';
 
 // Services + Guards
 import { AuthService } from './auth.service';
+import { BookService } from './book.service';
 import { AuthGuard } from './auth.guard';
 
 // Components
@@ -43,7 +43,7 @@ const appRoutes: Routes = [
     RequestsComponent,
     MyBooksComponent,
     AddBookComponent,
-    FilterByEmailPipe
+    FilterByPipe
   ],
   imports: [
     BrowserModule,
