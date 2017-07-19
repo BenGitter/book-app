@@ -102,7 +102,7 @@ export class BookService {
 
   acceptRequest(id:string){
     const token = this.authService.getToken();
-    console.log(token);
+
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", "JWT "+token);

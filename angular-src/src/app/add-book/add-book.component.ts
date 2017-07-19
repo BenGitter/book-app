@@ -32,11 +32,8 @@ export class AddBookComponent implements OnInit {
   }
 
   onSearchChange(){
-    console.log(this.title);
     this.bookService.getSearchResults(this.title).subscribe(data => {
-      console.log(data.items);
       this.searchResults = data.items;
-      // volumeInfo.title / authors
     })
   }
 

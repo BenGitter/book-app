@@ -42,8 +42,6 @@ export class RequestsComponent implements OnInit {
             break;
           }
         }
-
-        console.log(this.bookService.books);
       }
     });
   }
