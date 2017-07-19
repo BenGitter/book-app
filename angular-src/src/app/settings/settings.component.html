@@ -1,3 +1,66 @@
-<p>
-  settings works!
-</p>
+<div class="col-xs-12 col-sm-10 col-md-8">
+  <h3>Profile</h3>
+
+  <table class="table">
+    <tr>
+      <td>Email</td>
+      <td> {{ profile.email }} </td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Name</td>
+      <!-- Standard -->
+      <td *ngIf="!edit[0]"> {{ profile.name }} </td>
+      <td *ngIf="!edit[0]">
+        <span (click)="edit[0] = true" class="glyphicon glyphicon-edit"></span>
+      </td>
+      <!-- Edit mode -->
+      <td *ngIf="edit[0]">
+        <form (submit)="onSaveChange(0)">
+          <input type="text" [(ngModel)]="profile.name" name="name">
+        </form>
+      </td>
+      <td *ngIf="edit[0]">
+        <span (click)="onSaveChange(0)" class="glyphicon glyphicon-ok"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>City</td>
+      <!-- Standard -->
+      <td *ngIf="!edit[1]"> {{ profile.city }} </td>
+      <td *ngIf="!edit[1]">
+        <span (click)="edit[1] = true" class="glyphicon glyphicon-edit"></span>
+      </td>
+      <!-- Edit mode -->
+      <td *ngIf="edit[1]">
+        <form (submit)="onSaveChange(1)">
+          <input type="text" [(ngModel)]="profile.city" name="city">
+        </form>
+      </td>
+      <td *ngIf="edit[1]">
+        <span (click)="onSaveChange(1)" class="glyphicon glyphicon-ok"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Country</td>
+      <!-- Standard -->
+      <td *ngIf="!edit[2]"> {{ profile.country }} </td>
+      <td *ngIf="!edit[2]">
+        <span (click)="edit[2] = true" class="glyphicon glyphicon-edit"></span>
+      </td>
+      <!-- Edit mode -->
+      <td *ngIf="edit[2]">
+        <form (submit)="onSaveChange(2)">
+          <input type="text" [(ngModel)]="profile.country" name="country">
+        </form>
+      </td>
+      <td *ngIf="edit[2]">
+        <span (click)="onSaveChange(2)" class="glyphicon glyphicon-ok"></span>
+      </td>
+    </tr>
+
+  </table>
+</div>

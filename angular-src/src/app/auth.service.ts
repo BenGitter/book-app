@@ -11,6 +11,28 @@ export class AuthService {
 
   constructor(private http:Http) { }
 
+  saveProfile(profile:any){
+    const token = this.getToken();
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
+
+    return this.http.post("/auth/profile", profile, {headers: headers})
+      .map(res => res.json());
+  }
+
+  getProfile(){
+    const token = this.getToken();
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "JWT "+token);
+
+    return this.http.get("/auth/profile", {headers: headers})
+      .map(res => res.json());
+  }
+
   login(email:string, password:string){
     let headers = new Headers();
     headers.append("Content-Type", "application/json");

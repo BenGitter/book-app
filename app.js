@@ -28,14 +28,25 @@ mongoose.connection.on("error", (err) => {
 });
 
 // Get user info (authenticated route)
-app.get("/user", auth.authenticate(), (req, res) => {
-  console.log(req.user);
+app.get("/auth/profile", auth.authenticate(), (req, res) => {
   res.json({
     email: req.user.email,
-    password: req.user.password,
-    name: req.username || "",
+    name: req.user.name || "",
     city: req.user.city || "",
     country: req.user.country || ""
+  });
+});
+
+app.post("/auth/profile", auth.authenticate(), (req, res) => {
+  User.updateProfile(req.body, (err, user) => {
+    if(err){
+      res.json({success: false, error: err});
+    }else{
+      req.user.name = user.name;
+      req.user.city = user.city;
+      req.user.country = user.country;
+      res.json({success: true});
+    }
   });
 });
 

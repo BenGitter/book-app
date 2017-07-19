@@ -53,3 +53,14 @@ module.exports.comparePassword = function(password, hash, callback){
     callback(null, isMatch);
   });
 }
+
+module.exports.updateProfile = function(_profile, callback){
+  const profile = {
+    name: _profile.name,
+    email: _profile.email,
+    city: _profile.city,
+    country: _profile.country
+  };
+
+  User.findOneAndUpdate({email: _profile.email}, profile, callback);
+}

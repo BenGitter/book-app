@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  profile:Object = {
+    email: "", 
+    name: "",
+    city: "",
+    country: ""  
+  };
+
+  edit:Array<boolean> = [false, false, false];
+
+  constructor(private authService:AuthService) { }
 
   ngOnInit() {
+    this.authService.getProfile().subscribe(data => {
+      this.profile = data;
+    });
+  }
+
+  onSaveChange(index:number){
+    this.edit[index] = false;
+
+    this.authService.saveProfile(this.profile).subscribe(data => {
+      if(!data.success){
+        alert("An error occurred, try refreshing the page.");
+      }
+    })
   }
 
 }
