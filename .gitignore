@@ -9,7 +9,7 @@
 /angular-src/node_modules
 /node_modules
 
-/public
+/angular-src/
 
 # IDEs and editors
 /angular-src/.idea
