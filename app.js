@@ -1,3 +1,4 @@
+const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -14,6 +15,9 @@ const Request = require("./models/request");
 
 app.use(bodyParser.json());
 app.use(auth.initialize());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Mongoose
 mongoose.Promise = global.Promise;
@@ -174,7 +178,10 @@ app.post("/auth/register", (req, res) => {
   });
 });
 
-
+// Serve frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 
 app.listen(3000, () => {
   console.log("App started");

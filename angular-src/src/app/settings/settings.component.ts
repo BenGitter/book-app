@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  profile:Object = {
+  profile:any = {
     email: "", 
     name: "",
     city: "",
